@@ -1,5 +1,11 @@
 #include <iostream>
 #include <cstdlib>
+/************************************************************************ 
+ * compiled with online tool
+ * https://mbebenita.github.io/WasmExplorer/
+ * using C++11 -Os
+ * ********************************************************************/
+
 #include <ctime>
 using namespace std; 
 

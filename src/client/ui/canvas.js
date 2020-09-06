@@ -7,18 +7,23 @@
 
 const Config_P5Js_Canvas = function( app ){
 
-    const sketch = function(p) {
+  const blockNum = 30; 
+  const [canvasWidth,canvasHeight]  = [app.cppFunctions.blockSize() * blockNum, 500]; 
+  const full = app.cppFunctions.full();  
+  const sketch = function(p) {
         let x = 100;
         let y = 100;
       
         p.setup = function() {
-          p.createCanvas(700, 410);
+          p.createCanvas(canvasWidth, canvasHeight);
         };
-      
+
         p.draw = function() {
           p.background(app.p5.container.backgroundColor);
           p.fill(255);
-          p.rect(x, y, 50, 50);
+          for(let y=0;y<canvasHeight;y+=3){
+            p.line(0, y, canvasWidth, y);
+          }
         };
     };
 

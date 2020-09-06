@@ -17,28 +17,6 @@ module.exports = {
 },{}],2:[function(require,module,exports){
 "use strict"; 
 
-const myHeaders = new Headers();
-
-const myRequest = fileName => new Request(fileName, {
-  method: 'GET',
-  headers: myHeaders,
-  mode: 'cors',
-  cache: 'default',
-});
-
-
-const loadWebAssembly = function(fileName) {
-
-  return fetch( myRequest( fileName ) )
-    .then(response => response.arrayBuffer())
-    .then(buffer => WebAssembly.compile(buffer))
-    .then(module => {
-      return new WebAssembly.Instance(module) })
-    .catch(err => {
-      debugger
-    })
-
-};
 
 
 
@@ -59,14 +37,7 @@ $(document).ready(function(){
   }
 
   //Loading functions written in c++
-  loadWebAssembly('grid.wasm') 
-  .then( instance => {
-        app.cppFunctions = {
-          blockSize: instance.exports._Z9blockSizev, 
-          block: instance.exports._Z5blockj
-        }
-        return app; 
-    })
+  require('./webAssembly/main').loadWebAssemblyFunctions( app ) 
   .then ( app => {
       //init application ui 
       require('./ui/main.js').initAppUi( app ); 
@@ -77,7 +48,7 @@ $(document).ready(function(){
 
 });
 
-},{"./ui/main.js":5}],3:[function(require,module,exports){
+},{"./ui/main.js":5,"./webAssembly/main":6}],3:[function(require,module,exports){
 /********************************************************************
  * See https://p5js.org/
  * 
@@ -87,18 +58,23 @@ $(document).ready(function(){
 
 const Config_P5Js_Canvas = function( app ){
 
-    const sketch = function(p) {
+  const blockNum = 30; 
+  const [canvasWidth,canvasHeight]  = [app.cppFunctions.blockSize() * blockNum, 500]; 
+  const full = app.cppFunctions.full();  
+  const sketch = function(p) {
         let x = 100;
         let y = 100;
       
         p.setup = function() {
-          p.createCanvas(700, 410);
+          p.createCanvas(canvasWidth, canvasHeight);
         };
-      
+
         p.draw = function() {
           p.background(app.p5.container.backgroundColor);
           p.fill(255);
-          p.rect(x, y, 50, 50);
+          for(let y=0;y<canvasHeight;y+=3){
+            p.line(0, y, canvasWidth, y);
+          }
         };
     };
 
@@ -139,4 +115,44 @@ const initAppUi = function( app ){
 module.exports = {
     initAppUi
 }
-},{"./canvas.js":3,"./divPerimeter":4}]},{},[2]);
+},{"./canvas.js":3,"./divPerimeter":4}],6:[function(require,module,exports){
+"use strict"; 
+const myHeaders = new Headers();
+
+const myRequest = fileName => new Request(fileName, {
+  method: 'GET',
+  headers: myHeaders,
+  mode: 'cors',
+  cache: 'default',
+});
+
+
+const loadWebAssembly = function(fileName) {
+
+  return fetch( myRequest( fileName ) )
+    .then(response => response.arrayBuffer())
+    .then(buffer => WebAssembly.compile(buffer))
+    .then(module => {
+      return new WebAssembly.Instance(module) })
+    .catch(err => {
+      debugger
+    })
+
+};
+
+const loadWebAssemblyFunctions = function ( app ){
+    return loadWebAssembly('grid.wasm') 
+    .then( instance => {
+          app.cppFunctions = {
+            blockSize: instance.exports._Z9blockSizev, 
+            block: instance.exports._Z5blockj, 
+            full: instance.exports._Z4fullv
+          }
+          return app; 
+      })
+}
+
+module.exports = {
+    loadWebAssemblyFunctions
+}
+},{}]},{},[2]);
