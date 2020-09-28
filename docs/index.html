@@ -10,31 +10,15 @@
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+            
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js" integrity="sha512-WIklPM6qPCIp6d3fSSr90j+1unQHUOoWDS4sdTiR8gxUTnyZ8S2Mr8e10sKKJ/bhJgpAa/qG068RDkg6fIlNFA==" crossorigin="anonymous"></script>   </head>
 
-    <body> 
-        <body class="w3-black">
-
-            <!-- Icon Bar (Sidebar - hidden on small screens) -->
-            <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-hide-medium w3-center">
-              <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
-                <i class="fa fa-home w3-xxlarge"></i>
-                <p>HOME</p>
-              </a>
-              <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-user w3-xxlarge"></i>
-                <p>ABOUT</p>
-              </a>
-              <a href="#photos" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-eye w3-xxlarge"></i>
-                <p>SETTINGS</p>
-              </a>
-              <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-envelope w3-xxlarge"></i>
-                <p>DOCS</p>
-              </a>
-            </nav>
+        </head> 
+        <body class="w3-black" ng-app="">
+          <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-hide-medium w3-center" ng-include="'leftNav.html'">
+          </nav>
             
             <!-- Navbar on small screens (Hidden on medium and large screens) -->
             <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
@@ -53,10 +37,11 @@
                         <form class="w3-container w3-justify"> 
                             
                             <div class="w3-row w3-section">
-                                <div class="w3-col" style="width:50px">
-                                    <i id="approxStart" class="w3-xxlarge fa fa-user"></i></div>
+                                <div class="w3-col" style="width:80%"><input class="w3-input w3-border" name="first" id="expression" type="text" placeholder="expression">
+                                </div>
+                                
                                 <div class="w3-rest">
-                                  <input class="w3-input w3-border" name="first" id="expression" type="text" placeholder="expression">
+                                   <i id="approxStart" class="w3-xxlarge fa fa-user"></i>
                                 </div>
                             </div>
                 
