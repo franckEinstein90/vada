@@ -5736,11 +5736,17 @@ $(document).ready(function(){
 
 const blockNum = 30; 
 
-const Config_P5Js_Canvas = function( app ){
+const Config_P5Js_Canvas = function( app, options ){
+
+
   $( "#approxStart" ).click(function() {
-    alert( "Handler for .click() called." );
+    const expression = $("#expression"). val(); 
+    alert( expression ); 
   });
-  const [canvasWidth,canvasHeight]  = [app.cppFunctions.blockSize() * blockNum, 500]; 
+  
+  
+  
+  const [canvasWidth,canvasHeight]  = [options.containerPerimeter.width, 300]; 
   const full = app.cppFunctions.full(); 
   const FPS = 30; //frames per second 
   const refreshInterval = 1000; 
@@ -5805,8 +5811,10 @@ module.exports = {
 const divPerimeter = require('./divPerimeter').divPerimeter;
 
 const initAppUi = function( app ){
-    let containerPerimeter = divPerimeter(`#sideBar`); 
-    require('./canvas.js').Config_P5Js_Canvas( app ); 
+    let containerPerimeter = divPerimeter(`#visualContainer`); 
+    require('./canvas.js').Config_P5Js_Canvas( app, {
+        containerPerimeter
+    }); 
     return app; 
 }
 
